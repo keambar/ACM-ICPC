@@ -1,13 +1,17 @@
+/*
+    求图中两点路径上的关键节点
+*/
 #include <iostream>
 #include <cstdio>
 #include <cstring>
 using namespace std;
+const int MAXN=1009,MAXM=50009;
 struct Edge {
 	int v, next;
-} edge[50009];
-bool vis[50009], pd[1009];
-int Head[1009], ncnt = 1;
-int dfn[1009], low[1009], t;
+} edge[MAXM];
+bool vis[MAXM];
+int Head[MAXN], ncnt = 1;
+int dfn[MAXN], low[MAXN], t;
 int n, m, ans, u, v;
 inline void addedge (int u, int v) {
 	edge[++ncnt].v = v, edge[ncnt].next = Head[u];
@@ -25,7 +29,7 @@ bool DFS (int x) {
 				Fv = DFS (vt);
 				if (Fv) Findv = Fv;
 				low[x] = min (low[vt], low[x]);
-				if (Fv && low[vt] >= dfn[x] && !pd[x] && x != u && x != v) ans++, pd[x] = 1;
+				if (Fv && low[vt] >= dfn[x]  && x != u && x != v) ans++;
 			}
 			else    low[x] = min (dfn[vt], low[x]);
 		}
