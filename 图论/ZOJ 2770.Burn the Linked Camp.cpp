@@ -41,7 +41,7 @@ inline int SPFA() {
 		}
 		vis[k] = 0;
 	}
-	return dis[n]-dis[0];
+	return -dis[0];
 }
 
 inline void init() {
