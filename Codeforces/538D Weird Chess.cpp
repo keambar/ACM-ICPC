@@ -1,3 +1,4 @@
+﻿#include <bits/stdc++.h>
 using namespace std;
 const int MAXN = 109;
 char m[MAXN][MAXN], ans[MAXN][MAXN];
@@ -38,7 +39,7 @@ int main() {
 	ans[n][n] = 'o';
 	for (int i = 1; i < 2 * n; ++i) {
 		for (int j = 1; j < 2 * n; ++j)
+			cout << ans[i][j];
 		cout << endl;
 	}
 }
-
