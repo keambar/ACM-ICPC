@@ -1,3 +1,4 @@
+//O(60*n)
 #include <iostream>
 using namespace std;
 int n;
@@ -14,7 +15,7 @@ int main()
 			if (a[j] & 1LL << i ) {
 				long long t = a[j];
 				if (! (ans & 1LL << i ) ) ans ^= t;
-				for (int k = 1; k <= n; ++k) {
+				for (int k = j; k <= n; ++k) {
 					if (a[k] & 1LL << i )
 						a[k] ^= t;
 				}
