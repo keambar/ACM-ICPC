@@ -1,50 +1,46 @@
+/*
+	hdu 开栈 需用c++提交
+*/
+#pragma comment(linker, "/STACK:1024000000,1024000000")
 #include <iostream>
-#include <algorithm>
 #include <cstdio>
 #include <cstring>
+#include <string>
+#include <algorithm>
 #include <vector>
-#include <queue>
-#include <utility>
 using namespace std;
-
-const int N = 111;
+const int N = 500007;
+int a[N], s[N];
+int n;
 vector<int> E[N];
-int s[N], sum[N];
-int T, n, m;
 
-
-int dfs ( int u )
+void dfs ( int u )
 {
+    s[u] = 1;
     for ( int i = 0; i < E[u].size(); ++i ) {
         int v = E[u][i];
-        sum[u] += dfs ( v );
+        if ( !s[v] ) dfs ( v );
+        s[u] += s[v];
     }
-    return sum[u] + 1;
-}
-void init()
-{
-    for ( int i = 1; i <= n; ++i ) E[i].clear();
-    memset ( s, 0, sizeof s );
-    memset ( sum, 0, sizeof sum );
 }
 int main()
 {
-
-    while ( scanf ( "%d %d", &n, &m ) != EOF ) {
-        init();
+    while ( scanf ( "%d", &n ) != EOF ) {
+        memset ( s, 0, sizeof s );
+        for ( int i = 1; i <= n; ++i ) {
+            scanf ( "%d", &a[i] );
+            E[i].clear();
+        }
         for ( int i = 1, u, v; i < n; ++i ) {
             scanf ( "%d %d", &u, &v );
-            E[u].push_back ( v );
-            ++s[v];
+            if ( a[v] < a[u] ) E[v].push_back ( u );
+            else E[u].push_back ( v );
         }
-        int boss;
-        for ( int i = 1; i <= n; ++i ) {
-            if ( s[i] == 0 ) boss = i;
-        }
-        dfs ( boss );
         int ans = 0;
         for ( int i = 1; i <= n; ++i ) {
-            if ( sum[i] == m ) ++ans;
+            if ( !s[i] )
+                dfs ( i );
+            ans = max ( ans, s[i] );
         }
         printf ( "%d\n", ans );
     }
