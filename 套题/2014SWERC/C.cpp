@@ -1,4 +1,4 @@
-#include <cstdlib>
+ï»¿#include <cstdlib>
 #include <cstdio>
 #include <cmath>
 #include <cstring>
@@ -49,10 +49,10 @@ void FFT ( C *y, int l, int on )
 {
     int h, i, j, k;
     C u, t;
-    brc ( y, l ); // µÃµ½Ò»¸ö×Ôµ×ÏòÉÏµÄÐòÁÐ
-    for ( h = 2; h <= l; h <<= 1 ) { // ¿ØÖÆÒ»¸öO(logn)µÄÍâ²ã¸´ÔÓ¶È
+    brc ( y, l ); // å¾—åˆ°ä¸€ä¸ªè‡ªåº•å‘ä¸Šçš„åºåˆ—
+    for ( h = 2; h <= l; h <<= 1 ) { // æŽ§åˆ¶ä¸€ä¸ªO(logn)çš„å¤–å±‚å¤æ‚åº¦
         C wn ( cos ( on * 2 * pi / h ), sin ( on * 2 * pi / h ) );
-        for ( j = 0; j < l; j += h ) { // Á½¸öforÑ­»·¹²×é³ÉO(n)µÄ¸´ÔÓ¶È
+        for ( j = 0; j < l; j += h ) { // ä¸¤ä¸ªforå¾ªçŽ¯å…±ç»„æˆO(n)çš„å¤æ‚åº¦
             C w ( 1, 0 );
             for ( k = j; k < j + h / 2; ++k ) {
                 u = y[k];
