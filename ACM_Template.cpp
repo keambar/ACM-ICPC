@@ -339,99 +339,115 @@ int bzlca (int a, int b) {
 using namespace std;
 
 const int MAXN = 333333;
+const int Mod = ( int ) 1e9 + 7;
 
 struct node {
-	int val, max, inc;
-	bool rev;
-	node *par, *ch[2];
-} dt[MAXN], *NIL = dt;
-
+    int val, Min;
+    bool rev;
+    node *par, *ch[2];
+}  dt[MAXN], *NIL = dt;
 struct LinkcutTree {
-	inline void _inc (node * x,  int inc) {
-		if (x == NIL) return;
-		x->inc += inc, x->val += inc, x->max += inc;
-	}
-	inline void clear (node *const x) {
-		if (x == NIL) return ;
-		if (x->inc) {
-			_inc (x->ch[0], x->inc);
-			_inc (x->ch[1], x->inc);
-			x->inc = 0;
-		}
-		if (x->rev) {
-			swap (x->ch[0], x->ch[1]);
-			x->ch[0]->rev ^= 1;
-			x->ch[1]->rev ^= 1;
-			x->rev = 0;
-		}
-	}
-	inline void update (node * x) {
-		clear (x);
-		clear (x->ch[0]), clear (x->ch[1]);
-		x->max = max (x->val, max (x->ch[0]->max, x->ch[1]->max) );
-	}
-	void Rotate (node *x) {
-		node *p = x->par, *g = p->par;
-		int c = p->ch[0] == x; //0左旋，1右旋
-		p->ch[c ^ 1] = x->ch[c];
-		if (x->ch[c] != NIL) x->ch[c]->par = p;
-		x->par = g;
-		if (g->ch[0] == p) g->ch[0] = x;
-		else if (g->ch[1] == p) g->ch[1] = x;
-		x->ch[c] = p;
-		p->par = x;
-		update (p);
-	}
-	void Splay (node *x) {
-		node *p, *g;
-		clear (x);
-		while ( (p = x->par) != NIL && (p->ch[0] == x || p->ch[1] == x) ) {
-			if ( (g = p->par) != NIL && (g->ch[0] == p || g->ch[1] == p) ) {
-				clear (g), clear (p), clear (x);
-				if ( (g->ch[1] == p) == (p->ch[1] == x) )
-					Rotate (p), Rotate (x);
-				else
-					Rotate (x), Rotate (x);
-			}
-			else {
-				clear (p), clear (x);
-				Rotate (x);
-			}
-		}
-		update (x);
-	}
-	node *Access (node *u) {
-		node *v = NIL;
-		for (; u != NIL; u = u->par) {
-			Splay (u);
-			u->ch[1] = v;
-			update (v = u);
-		}
-		return v;
-	}
-	node *getroot (node *x) {
-		for (x = Access (x); clear (x), x->ch[0] != NIL; x = x->ch[0]);
-		return x;
-	}
-	inline void evert (node *x) {
-		Access (x)->rev ^= 1; Splay (x);
-	}
-	inline void link (node *x, node *y) {
-		evert (x); x->par = y; Access (x);
-	}
-	inline void cut (node *x, node *y) {
-		evert (x); Access (y); Splay (y);
-		y->ch[0]= x = NIL;
-		update (y);
-	}
-	inline int query (node *x, node *y) {
-		evert (x); Access (y), Splay (y);
-		return y->max;
-	}
-	inline void modify (node *x, node *y, int w) {
-		evert (x); Access (y), Splay (y);
-		_inc (y, w);
-	}
+    inline void clear( node *const x )
+    {
+        if( x == NIL ) {
+            return ;
+        }
+        if( x->rev ) {
+            swap( x->ch[0], x->ch[1] );
+            for( int i = 0; i < 2; ++i ) {
+                if( x->ch[i] != NIL ) {
+                    x->ch[i]->rev ^= 1;
+                }
+            }
+            x->rev = 0;
+        }
+    }
+    inline void update( node * x )
+    {
+        if( x == NIL ) {
+            return;
+        }
+        x->Min = x->val;
+        for( int i = 0; i < 2; ++i ) {
+            if( x->ch[i] != NIL ) {
+                x->Min = min( x->Min, x->ch[i]->Min );
+            }
+        }
+    }
+    void Rotate( node *x )
+    {
+        node *p = x->par, *g = p->par;
+        int c = p->ch[0] == x; //0左旋，1右旋
+        p->ch[c ^ 1] = x->ch[c];
+        if( x->ch[c] != NIL ) {
+            x->ch[c]->par = p;
+        }
+        x->par = g;
+        if( g->ch[0] == p ) {
+            g->ch[0] = x;
+        } else
+            if( g->ch[1] == p ) {
+                g->ch[1] = x;
+            }
+        x->ch[c] = p;
+        p->par = x;
+        update( p );
+    }
+    void Splay( node *x )
+    {
+        node *p, *g;
+        clear( x );
+        while( ( p = x->par ) != NIL && ( p->ch[0] == x || p->ch[1] == x ) ) {
+            if( ( g = p->par ) != NIL && ( g->ch[0] == p || g->ch[1] == p ) ) {
+                clear( g ), clear( p ), clear( x );
+                if( ( g->ch[1] == p ) == ( p->ch[1] == x ) ) {
+                    Rotate( p ), Rotate( x );
+                } else {
+                    Rotate( x ), Rotate( x );
+                }
+            } else {
+                clear( p ), clear( x );
+                Rotate( x );
+            }
+        }
+        update( x );
+    }
+    node *Access( node *u )
+    {
+        node *v = NIL;
+        for( ; u != NIL; u = u->par ) {
+            Splay( u );
+            u->ch[1] = v;
+            update( v = u );
+        }
+        return v;
+    }
+    inline void evert( node *x )
+    {
+        Access( x )->rev ^= 1;
+        Splay( x );
+    }
+    inline void link( node *x, node *y )
+    {
+        evert( x );
+        x->par = y;
+        //Access (x);
+    }
+    inline node* getroot( node *x )
+    {
+        for( x = Access( x ); clear( x ), x->ch[0] != NIL; x = x->ch[0] );
+        Splay( x );
+        return x;
+    }
+    inline void cut( node *x, node *y )
+    {
+        evert( x );
+        Access( y );
+        Splay( y );
+        y->ch[0]->par = NIL;
+        y->ch[0] = NIL;
+        update( y );
+    }
 } LCT;
 //-------------------------
 
