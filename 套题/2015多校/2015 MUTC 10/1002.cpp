@@ -43,8 +43,13 @@ vector<LL> produce_prim_number()
 }
 
 
+vector<LL> prime;
+
+
 int main()
 {
+
+
       prime = produce_prim_number();
       ios_base::sync_with_stdio(false);
       cin.tie(0);
