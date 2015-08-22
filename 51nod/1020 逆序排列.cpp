@@ -1,3 +1,6 @@
+/*
+	离线问题并排序，n*m的DP求出所求值，将所需要的值存下来。需要用滚动数组优化空间。
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back
