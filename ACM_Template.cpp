@@ -1666,6 +1666,7 @@ ll number ( string s )
         res = mp[s[now]];
         now++;
     }
+	//此处为一位数字
     if ( '0' <= s[now] && s[now] <= '9' ) {
         res = s[now] - '0';
         now++;
