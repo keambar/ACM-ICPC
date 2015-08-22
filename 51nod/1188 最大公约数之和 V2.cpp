@@ -1,3 +1,7 @@
+/*
+	线性筛出每个数的欧拉函数值
+	利用欧拉函数计算GCD，求出前缀和
+*/
 #include<stdio.h>
 #include<string.h>
 #define MAXN 5000010

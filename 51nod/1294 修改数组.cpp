@@ -1,3 +1,6 @@
+/*
+	对每个数减去它的下标，就是求LIS了。
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back

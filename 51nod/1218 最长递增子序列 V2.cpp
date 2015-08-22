@@ -1,3 +1,7 @@
+/*
+	正着求一遍最长上升序列,反求一遍下降序列。
+	然后就可以判断了。
+*/
 #include <algorithm>
 #include <iostream>
 #include <cstring>

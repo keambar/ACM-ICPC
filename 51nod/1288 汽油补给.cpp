@@ -1,3 +1,6 @@
+/*
+	队列+贪心
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back

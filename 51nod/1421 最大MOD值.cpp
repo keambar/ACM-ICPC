@@ -1,3 +1,7 @@
+/*
+	预处理小于i的最大的在数组里的数，
+	对于每个数，枚举比他倍数小的最大的数。
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back

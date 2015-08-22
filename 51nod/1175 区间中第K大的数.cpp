@@ -1,3 +1,6 @@
+/*
+	离线询问，分治求解
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back
