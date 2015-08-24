@@ -1,5 +1,5 @@
 /*
-	ͬv2.
+	同v2.
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -33,7 +33,7 @@ inline void Erase( int x )
 }
 int main()
 {
-    //freopen( "txt.in", "r", stdin );
+    // freopen( "txt.in", "r", stdin );
     // freopen( "txt.out", "w", stdout );
     scanf( "%d %d", &n, &m );
     LL tem = 0, ans = 0;
