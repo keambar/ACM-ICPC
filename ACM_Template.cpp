@@ -1112,6 +1112,64 @@ inline void putnum (int x) {
     putchar (10);
 }
 //-----------------------------------
+
+//8.凸包
+//-----------------------------------
+const double eps = 1e-8;
+const double pi = acos( -1.0 );
+int sgn( double x )
+{
+    return fabs( x ) < eps ? 0 : x < 0 ? -1 : 1;
+}
+struct point {
+    double x, y;
+    point() {}
+    point( double x, double y )
+    {
+        this->x = x;
+        this->y = y;
+    }
+    point operator +( point a )
+    {
+        return point( x + a.x, y + a.y );
+    }
+    point operator -( point a )
+    {
+        return point( x - a.x, y - a.y );
+    }
+    double operator *( point a )
+    {
+        return x * a.x + y * a.y;
+    }
+    double operator /( point a )
+    {
+        return x * a.y - y * a.x;
+    }
+    bool operator <( point a )const
+    {
+        return x != a.x ? x < a.x : y < a.y;
+    }
+} p[200], q[200];
+int covexhull( point p[], int n, point ch[] )
+{
+    sort( p, p + n );
+    int m = 0;
+    for( int i = 0; i < n; i++ ) {
+        while( m > 1 && sgn( ( ch[m - 1] - ch[m - 2] ) / ( p[i] - ch[m - 2] ) ) <= 0 )
+            m--;
+        ch[m++] = p[i];
+    }
+    int k = m;
+    for( int i = n - 2; i > -1; i-- ) {
+        while( m > k && sgn( ( ch[m - 1] - ch[m - 2] ) / ( p[i] - ch[m - 2] ) ) <= 0 )
+            m--;
+        ch[m++] = p[i];
+    }
+    if( n > 1 )
+        m--;
+    return m;
+}
+//-----------------------------------
 /*=======================================================
 		         技            巧
 =======================================================*/
