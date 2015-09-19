@@ -28,7 +28,7 @@ const int INF = 1111;
 struct node {
     int v, c, next;
 } edge[INF*INF];
-int  pHead[INF*INF], SS, ST, nCnt;
+int  pHead[INF], SS, ST, nCnt;
 void addEdge (int u, int v, int c) {
     edge[++nCnt].v = v; edge[nCnt].c = c, edge[nCnt].next = pHead[u]; pHead[u] = nCnt;
     edge[++nCnt].v = u; edge[nCnt].c = 0, edge[nCnt].next = pHead[v]; pHead[v] = nCnt;
