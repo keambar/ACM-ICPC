@@ -1,5 +1,5 @@
 /*
-  思路：分别对5维量排序，分块，bitset存集合。求交集
+  鎬濊矾锛氬垎鍒5缁撮噺鎺掑簭锛屽垎鍧楋紝bitset瀛橀泦鍚堛�傛眰浜ら泦
 */
 #include <bits/stdc++.h>
 using namespace std;
