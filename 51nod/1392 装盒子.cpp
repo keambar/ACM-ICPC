@@ -1,5 +1,5 @@
 /*
-	ĞÙÑÀÀûËã·¨+Ì°ĞÄ
+	åŒˆç‰™åˆ©ç®—æ³•+è´ªå¿ƒ
 */
 #include <bits/stdc++.h>
 using namespace std;
