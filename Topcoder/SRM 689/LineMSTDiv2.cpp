@@ -50,10 +50,9 @@ public:
             ans = 0;
             dfs( 1, N, 0, 1 );
             LL tmp = 1;
-            for( int i = 1; i <= N; ++i ) {
+            for( int i = 3; i <= N; ++i ) {
                 tmp *= i;
             }
-            tmp /= 2;
             tmp %= MOD;
             ans = ( ans * tmp ) % MOD;
         }
