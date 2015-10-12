@@ -705,6 +705,130 @@ struct Splay {
         }
         Update (root);
     }
+} sp;const int MAXN = 1111111, INF = 0x7fffffff;
+
+struct node {
+    //需要的记录信息
+    ll  key, val, sum, lazy, Size, Cnt;
+    //指向儿子和父亲的指针
+    node *ch[2], *pre;
+    node() {pre = ch[0] = ch [1] = 0; Size = 1; key = 0;}
+    node (ll key) : key (key) {pre = ch[0] = ch[1] = 0; Size = 1, Cnt = 1, lazy = 0;}
+    void Csize() {
+        Size = Cnt;
+        if (ch[0] != NULL) Size += ch[0]->Size;
+        if (ch[1] != NULL) Size += ch[1]->Size;
+    }
+    void Csum() {
+        sum = val;
+        if (ch[0] != NULL) sum += ch[0]->sum + ch[0]->Size * ch[0]->lazy;
+        if (ch[1] != NULL) sum += ch[1]->sum + ch[1]->Size * ch[1]->lazy;
+    }
+} nil (0), *NIL = &nil;
+
+struct Splay {
+    node *root, nod[MAXN];
+    int ncnt;//计算key值不同的结点数，已去重
+    Splay() {
+        ncnt = 0;
+        root = & (nod[ncnt++] = node (INF) );
+        root->pre = NIL;
+        root->val = root->sum = 0;
+    }
+    void Push_Down (node *x) {
+        if (x->lazy != 0) {
+            if (x->ch[0] != NULL) x->ch[0]->lazy += x->lazy;
+            if (x->ch[1] != NULL) x->ch[1]->lazy += x->lazy;
+                     x->val+=x->lazy;
+        }
+        x->lazy = 0;
+    }
+
+    void Update (node *x) {
+        x->Csize();
+        x->Csum();
+    }
+
+    void Rotate (node *x, int sta) { //单旋转操作，0左旋，1右旋
+        node *p = x->pre, *g = p->pre;
+        Push_Down (p), Push_Down (x);
+        p->ch[!sta] = x->ch[sta];
+        if (x->ch[sta] != NULL)  x->ch[sta]->pre = p;
+        x->pre = g;
+        if (g != NIL)
+            if (g->ch[0] == p)  g->ch[0] = x;
+            else g->ch[1] = x;
+        x->ch[sta] = p, p->pre = x, Update (p);
+        if (p == root ) root = x;
+    }
+
+    void splay (node *x, node *y) { //Splay 操作，表示把结点x,转到根
+        for (Push_Down (x) ; x->pre != y;) { //将x的标记往下传
+            if (x->pre->pre == y) { //目标结点为父结点
+                if (x->pre->ch[0] == x)       Rotate (x, 1);
+                else   Rotate (x, 0);
+            }
+            else {
+                node *p = x->pre, *g = p->pre;
+                if (g->ch[0] == p)
+                    if (p->ch[0] == x)
+                        Rotate (p, 1), Rotate (x, 1);//   / 一字型双旋转
+                    else
+                        Rotate (x, 0), Rotate (x, 1);//  < 之字形双旋转
+
+                else if (p ->ch[1] == x)
+                    Rotate (p, 0), Rotate (x, 0);//    \ 一字型旋转
+                else
+                    Rotate (x, 1), Rotate (x, 0); //   >之字形旋转
+            }
+        }
+        Update (x); //维护x结点
+    }
+    //找到中序便利的第K个结点，并旋转至结点y的下面。
+    void Select (int k, node *y) {
+        int tem ;
+        node *t ;
+        for ( t = root; ; ) {
+            Push_Down (t) ; //标记下传
+            tem = t->ch[0]->Size ;
+            if (k == tem + 1 ) break ; //找到了第k个结点 t
+            if (k <= tem)
+                t = t->ch[0] ; //第k个结点在左子树
+            else
+                k -= tem + 1 , t = t->ch[1] ;//在右子树
+        }
+        splay (t, y);
+    }
+    bool Search (ll key, node *y) {
+        node *t = root;
+        for (; t != NULL;) {
+            Push_Down (t);
+            if (t->key > key && t->ch[0] != NULL) t = t->ch[0];
+            else if (t->key < key && t->ch[1] != NULL) t = t->ch[1];
+            else
+                break;
+        }
+        splay (t, y);
+        return t->key == key;
+    }
+    void Insert (int key, int val) {
+        if (Search (key, NIL) ) root->Cnt++, root->Size++;
+        else {
+            int d = key > root->key;
+            node *t = & (nod[++ncnt] = node (key) );
+            Push_Down (root);
+            t->val = t->sum = val;
+            t->ch[d] = root->ch[d];
+            if (root->ch[d] != NULL) root->ch[d]->pre = t;
+            t->ch[!d] = root;
+            t->pre = root->pre;
+            root->pre = t;
+            root->ch[d] = NULL;
+            Update (root);
+            root = t;
+        }
+        Update (root);
+    }
 } sp;
 
 ll  n, m, x;
@@ -1179,6 +1303,8 @@ int covexhull( point p[], int n, point ch[] )
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 或
  int size = 256 << 20; // 256MB
+ char *p = (char*) malloc (size) + size;
+ __asm__ ("movl %0, %%esp\n" :: "r" (p) ); int size = 256 << 20; // 256MB
  char *p = (char*) malloc (size) + size;
  __asm__ ("movl %0, %%esp\n" :: "r" (p) );
 
