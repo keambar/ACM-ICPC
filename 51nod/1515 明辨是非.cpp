@@ -1,5 +1,5 @@
 /*
-    ˼·���ò��鼯ά����ͬ�Ĺ�ϵ����ÿ�����ڵ���set���²��ȹ�ϵ������ʽ�ϲ�����
+    思路：用并查集维护相同的关系，对每个父节点用set存下不等关系，启发式合并加速
 */
 #include <bits/stdc++.h>
 using namespace std;
