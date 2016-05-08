@@ -2,26 +2,18 @@
 // Author: keambar
 // Created Time: 2016年05月06日 星期五 22时41分46秒
 
-#include<vector>
-#include<list>
-#include<map>
-#include<set>
-#include<deque>
-#include<stack>
-#include<bitset>
-#include<algorithm>
-#include<functional>
-#include<numeric>
-#include<utility>
-#include<sstream>
-#include<iostream>
-#include<iomanip>
-#include<cstdio>
-#include<cmath>
-#include<cstdlib>
-#include<cstring>
-#include<ctime>
+#include <bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pf push_front
+#define mp make_pair
+#define all(x) (x).begin(),(x).end()
+#define SZ(x) ((int)(x).size())
 #define LL long long
+#define se second
+#define fi first
+const int N = 200005;
+const int Mod = ( int ) 1e9 + 7;
 
 using namespace std;
 vector<int> A,B;
